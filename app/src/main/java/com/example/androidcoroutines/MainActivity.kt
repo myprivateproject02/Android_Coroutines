@@ -9,6 +9,7 @@ import com.example.androidcoroutines.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,10 +38,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // Dispachers.IO is use to run in bg thread
+    // Dispachers.Main is use to run in UI/Main Thread
 
-    private fun download() {
+    private suspend fun download() {
         for (i in 1..200000) {
-            Log.e(TAG, "Count is $i in ${Thread.currentThread().name}")
+            withContext(Dispatchers.Main){
+                binding.displayCount.text = "Count is $i"
+                Log.e(TAG, "Count is $i in ${Thread.currentThread().name}")
+            }
+
         }
     }
 
