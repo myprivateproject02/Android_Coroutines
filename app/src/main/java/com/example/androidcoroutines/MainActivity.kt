@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.download.setOnClickListener { view ->
             // If  you not launch with coroutine then download() is running on main/ui thread  so may be ui is lagging
             CoroutineScope(Dispatchers.IO).launch {
