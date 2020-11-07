@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
                 val total = stock1 + stock2
                 Log.e("Stock", "onCreate: " + total)
             }
-
         }
 
     }
