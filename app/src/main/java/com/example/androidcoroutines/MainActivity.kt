@@ -6,9 +6,9 @@ import android.renderscript.ScriptGroup
 import android.util.Log
 import android.widget.Toast
 import com.example.androidcoroutines.databinding.ActivityMainBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,27 +21,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        var suspendDemo = SuspendDemo2()
         binding.download.setOnClickListener { view ->
             // If  you not launch with coroutine then download() is running on main/ui thread  so may be ui is lagging
-            CoroutineScope(Dispatchers.IO).launch {
-                download()
+
+            CoroutineScope(IO).launch {
+                var stock1 = getStock1()
+                var stock2 = getStock2()
+                val total = stock1 + stock2
+                Log.e("Stock", "onCreate: " + total)
             }
 
         }
 
-        binding.add.setOnClickListener { view ->
-            binding.textView.text = count++.toString()
-        }
-
-
     }
 
 
-    private fun download() {
-        for (i in 1..200000) {
-            Log.e(TAG, "Count is $i in ${Thread.currentThread().name}")
-        }
+    suspend fun getStock1(): Int {
+        delay(1000)
+        Log.e(TAG, "getStock1: ")
+        return 2000
+
+    }
+
+    suspend fun getStock2(): Int {
+        delay(5000)
+        Log.e(TAG, "getStock2: ")
+        return 5000
     }
 
 
