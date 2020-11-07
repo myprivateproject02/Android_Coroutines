@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         var suspendDemo = SuspendDemo2()
         binding.download.setOnClickListener { view ->
-            // If  you not launch with coroutine then download() is running on main/ui thread  so may be ui is lagging
+//            This Code Running Sequensially So One Function Is executed after another one....
 
             CoroutineScope(IO).launch {
                 var stock1 = getStock1()
