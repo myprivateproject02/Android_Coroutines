@@ -23,12 +23,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         var suspendDemo = SuspendDemo2()
         binding.download.setOnClickListener { view ->
-//            This Code Running Sequensially So One Function Is executed after another one....
+//            This Code Running Parallely So All function runing in seperate coroutine
 
             CoroutineScope(IO).launch {
-                var stock1 = getStock1()
-                var stock2 = getStock2()
-                val total = stock1 + stock2
+                var stock1 = async { getStock1() }
+                var stock2 = async { getStock2() }
+                val total = stock1.await() + stock2.await()
                 Log.e("Stock", "onCreate: " + total)
             }
         }
