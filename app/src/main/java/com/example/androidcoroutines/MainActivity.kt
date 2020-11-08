@@ -6,15 +6,15 @@ import android.renderscript.ScriptGroup
 import android.util.Log
 import android.widget.Toast
 import com.example.androidcoroutines.databinding.ActivityMainBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "MainActivity"
     lateinit var binding: ActivityMainBinding
-    private var count = 0
+    lateinit var job: Job
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,27 +22,38 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.download.setOnClickListener { view ->
-            // If  you not launch with coroutine then download() is running on main/ui thread  so may be ui is lagging
-            CoroutineScope(Dispatchers.IO).launch {
-                download()
+        job = CoroutineScope(Dispatchers.Main).launch {
+            downloadData()
+        }
+
+        binding.cancelButton.setOnClickListener {
+            job.cancel()
+        }
+
+
+        binding.checkState.setOnClickListener {
+            if(job.isActive){
+                binding.status.text = "Active"
+            }else if(job.isCancelled){
+                binding.status.text ="Cancelled"
+            }else if(job.isCompleted){
+                binding.status.text = "Completed"
             }
-
-        }
-
-        binding.add.setOnClickListener { view ->
-            binding.textView.text = count++.toString()
         }
 
 
     }
 
 
-    private fun download() {
-        for (i in 1..200000) {
-            Log.e(TAG, "Count is $i in ${Thread.currentThread().name}")
+    private suspend fun downloadData(){
+        withContext(Dispatchers.IO){
+            repeat(30){
+                delay(1000)
+                Log.e(TAG, "DownloadData: $it")
+            }
         }
     }
+
 
 
 }
