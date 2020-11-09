@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
 
         CoroutineScope(Dispatchers.Main).launch {
-            binding.status.text = UserDataManager().getTotalUserData().toString()
+            binding.status.text = UserDataManager().getTotalUserCount().toString()
         }
 
     }
