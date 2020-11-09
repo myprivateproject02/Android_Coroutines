@@ -5,19 +5,25 @@ import kotlinx.coroutines.Dispatchers.IO
 
 class UserDataManager {
 
-    suspend fun getTotalUserData(): Int {
-        var coutn: Int = 0
+    var count = 0
+    lateinit var deferred: Deferred<Int>
 
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(3000)
-            coutn = 50
+    suspend fun getTotalUserCount(): Int {
+
+
+        coroutineScope {
+            launch(Dispatchers.IO) {
+                delay(2000)
+                count = 50
+            }
         }
 
-        val deffered = CoroutineScope(IO).async {
-            delay(3000)
+        deferred = CoroutineScope(Dispatchers.IO).async {
+            delay(5000)
             return@async 70
         }
-        return coutn + deffered.await()
+
+        return count + deferred.await()
     }
 
 

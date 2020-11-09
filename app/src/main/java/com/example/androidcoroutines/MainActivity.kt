@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         CoroutineScope(Dispatchers.Main).launch {
             binding.status.text = UserDataManager().getTotalUserCount().toString()
         }
