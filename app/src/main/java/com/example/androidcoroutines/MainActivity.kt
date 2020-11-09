@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.example.androidcoroutines.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -22,26 +23,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.download.setOnClickListener { view ->
-            // If  you not launch with coroutine then download() is running on main/ui thread  so may be ui is lagging
-            CoroutineScope(Dispatchers.IO).launch {
-                download()
-            }
 
+        CoroutineScope(Dispatchers.Main).launch {
+            binding.status.text = UserDataManager().getTotalUserData().toString()
         }
 
-        binding.add.setOnClickListener { view ->
-            binding.textView.text = count++.toString()
-        }
-
-
-    }
-
-
-    private fun download() {
-        for (i in 1..200000) {
-            Log.e(TAG, "Count is $i in ${Thread.currentThread().name}")
-        }
     }
 
 
