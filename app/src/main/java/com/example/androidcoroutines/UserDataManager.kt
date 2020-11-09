@@ -15,11 +15,12 @@ class UserDataManager {
                 delay(2000)
                 count = 50
             }
-        }
 
-        deferred = CoroutineScope(Dispatchers.IO).async {
-            delay(5000)
-            return@async 70
+            deferred = async {
+                delay(5000)
+                return@async 70
+            }
+
         }
 
         return count + deferred.await()
