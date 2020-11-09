@@ -10,7 +10,6 @@ class UserDataManager {
 
     suspend fun getTotalUserCount(): Int {
 
-
         coroutineScope {
             launch(Dispatchers.IO) {
                 delay(2000)
