@@ -19,25 +19,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            Log.e(TAG, "onActivityCreated: ${Thread.currentThread().name}")
-        }
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            Log.e(TAG, "onActivityCreated: ${Thread.currentThread().name}")
-        }
-
-        lifecycleScope.launchWhenCreated {
-            Log.e(TAG, "onActivityCreated2: ${Thread.currentThread().name}")
-        }
-        lifecycleScope.launchWhenStarted {
-            Log.e(TAG, "onActivityCreated3: ${Thread.currentThread().name}")
-        }
-
-        lifecycleScope.launchWhenResumed {
-            Log.e(TAG, "onActivityCreated4: ${Thread.currentThread().name}")
-        }
-
     }
 
 }
